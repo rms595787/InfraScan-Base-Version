@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Explorer</title>
+    <link rel="stylesheet" href="globals.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const map = L.map('map-placeholder').setView([28.6139, 77.2090], 13);
+
+            const standardMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            const satelliteMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            });
+
+            const baseMaps = {
+                "Standard Map": standardMap,
+                "Satellite Map": satelliteMap
+            };
+
+            L.control.layers(baseMaps).addTo(map);
+
+            // Handle map click event
+            map.on('click', function (event) {
+                const lat = event.latlng.lat;
+                const lon = event.latlng.lng;
+
+                if (confirm(`You clicked at Latitude: ${lat}, Longitude: ${lon}. Do you want to run the image comparison?`)) {
+                    fetch('/map_click', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ latitude: lat, longitude: lon })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                alert(`Image comparison completed.\nSSIM Score: ${data.ssim_score}`);
+                            } else {
+                                alert(data.message);
+                            }
+                        });
+                }
+            });
+
+            // Handle "Show Map" button click
+            document.getElementById('show-map-btn').addEventListener('click', () => {
+                fetch('/show_map', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            alert(data.message);
+                        }
+                    });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-map-marker-alt"></i> Map Explorer
+            </div>
+            <nav>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </nav>
+        </header>
+        <main>
+            <div class="map-section">
+                <button id="show-map-btn">Show Map</button>
+                <div id="map-placeholder" style="height: 500px;"></div>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2024 Map Explorer. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

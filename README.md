@@ -11,10 +11,10 @@
 5. [Output Preview](#-output-preview)
 6. [Conclusion](#-conclusion)
 
-![Python Version](https://img.shields.io/badge/Python-3.11%20to%203.12-blue?logo=python)
-![Status](https://img.shields.io/badge/Project-Stable-brightgreen)
-![Platform](https://img.shields.io/badge/Platform-Cross--OS-lightgrey?logo=windows&logoColor=white)
-![Framework](https://img.shields.io/badge/Uses-Flask-orange?logo=flask)
+[![Python Version](https://img.shields.io/badge/Python-3.11%20to%203.12-blue?logo=python)](https://www.python.org/downloads/release/python-3110/)
+[![Status](https://img.shields.io/badge/Project-Stable-brightgreen)](#)
+[![Platform](https://img.shields.io/badge/Platform-Cross--OS-lightgrey?logo=windows&logoColor=white)](https://en.wikipedia.org/wiki/Cross-platform_software)
+[![Framework](https://img.shields.io/badge/Uses-Flask-orange?logo=flask)](https://flask.palletsprojects.com/en/stable/)
 
 This project requires specific versions of Python and certain libraries to function correctly. Please follow the installation and usage instructions carefully to avoid compatibility issues.
 
